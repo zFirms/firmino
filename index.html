@@ -1,719 +1,420 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rafael Firmino — Developer</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rafael Firmino — Sites, lojas e sistemas em produção</title>
+<meta name="description" content="Desenvolvedor front-end e back-end em Bauru/SP. Sites, lojas virtuais, sistemas sob medida e automações com IA — em produção, com manutenção.">
+<meta name="author" content="Rafael Rodrigues Firmino">
+<meta property="og:title" content="Rafael Firmino — Sites, lojas e sistemas em produção">
+<meta property="og:description" content="Desenvolvedor front-end e back-end em Bauru/SP. WordPress, WooCommerce, PHP, MySQL, Node.js, IA e servidor Linux.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg:#0B0C0E; --fg:#E8EAE6; --dim:#B9C0C5; --mut:#8A9299; --mut2:#7D868D;
+    --line:#1C2024; --line2:#242A2E; --card:#101316; --card2:#0E1114;
+    --acc:#C6F24E; --accbg:#141A0C; --accline:#2A3B12;
+    --mono:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    --sans:'Space Grotesk', system-ui, -apple-system, Segoe UI, sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--fg); font-family: var(--sans);
+    -webkit-font-smoothing: antialiased; overflow-x: hidden;
+    background-image: linear-gradient(#15181B 1px, transparent 1px), linear-gradient(90deg, #15181B 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+  @keyframes riseIn { from { opacity:0; transform: translateY(16px); } to { opacity:1; transform:none; } }
+  @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:.25; } }
+  .rise { animation: riseIn .6s ease both; }
 
-    :root {
-      --bg: #0a0a0f;
-      --bg2: #0f0f17;
-      --surface: #13131e;
-      --border: #1e1e2e;
-      --accent: #00e5ff;
-      --accent2: #7c3aed;
-      --text: #e2e2f0;
-      --muted: #5a5a7a;
-      --mono: 'Space Mono', monospace;
-      --sans: 'Syne', sans-serif;
-    }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 28px; }
+  header.top {
+    position: sticky; top: 0; z-index: 50; display: flex; justify-content: space-between;
+    align-items: center; gap: 16px; padding: 12px 28px;
+    background: rgba(11,12,14,.82); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line);
+  }
+  .logo { font-family: var(--mono); font-size: 12px; letter-spacing: .02em; }
+  .logo b { color: var(--acc); font-weight: 400; }
+  .logo i { color: var(--mut2); font-style: normal; }
+  nav { display: flex; gap: 6px; flex-wrap: wrap; }
+  nav a {
+    font-family: var(--mono); font-size: 11px; letter-spacing: .04em; color: var(--mut);
+    padding: 6px 10px; border: 1px solid transparent; border-radius: 4px; transition: .15s;
+  }
+  nav a:hover { color: var(--acc); border-color: var(--line2); }
 
-    html { scroll-behavior: smooth; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 9px; border: 1px solid var(--accline);
+    background: var(--accbg); border-radius: 4px; padding: 6px 12px; margin-bottom: 36px;
+  }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--acc); animation: blink 1.8s infinite; }
+  .badge span { font-family: var(--mono); font-size: 11px; letter-spacing: .04em; color: var(--acc); }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--sans);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
+  .prompt { font-family: var(--mono); font-size: 12px; color: var(--mut2); margin-bottom: 18px; }
+  .prompt b { color: var(--acc); font-weight: 400; }
 
-    /* Noise overlay */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 9999;
-      opacity: 0.5;
-    }
+  h1 { font-size: clamp(3rem, 11vw, 8.5rem); font-weight: 700; line-height: .9; letter-spacing: -.045em; margin-bottom: 28px; }
+  h1 span { color: var(--mut); }
+  h1 em { color: var(--acc); font-style: normal; }
 
-    /* Glow blob */
-    .blob {
-      position: fixed;
-      width: 600px;
-      height: 600px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(0,229,255,0.04) 0%, transparent 70%);
-      pointer-events: none;
-      top: -200px;
-      right: -200px;
-      z-index: 0;
-    }
-    .blob2 {
-      position: fixed;
-      width: 400px;
-      height: 400px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(124,58,237,0.05) 0%, transparent 70%);
-      pointer-events: none;
-      bottom: 100px;
-      left: -100px;
-      z-index: 0;
-    }
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 36px; }
+  .chip {
+    font-family: var(--mono); font-size: 11px; color: var(--dim); border: 1px solid var(--line2);
+    background: var(--card); border-radius: 4px; padding: 6px 11px;
+  }
+  .chip.on { color: var(--acc); border-color: var(--accline); background: var(--accbg); }
 
-    /* NAV */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.25rem 2.5rem;
-      background: rgba(10,10,15,0.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav-logo {
-      font-family: var(--mono);
-      font-size: 0.85rem;
-      color: var(--accent);
-      letter-spacing: 0.05em;
-    }
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      list-style: none;
-    }
-    .nav-links a {
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      color: var(--muted);
-      text-decoration: none;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--accent); }
+  .lead { font-size: clamp(1rem,1.5vw,1.15rem); line-height: 1.7; color: var(--dim); max-width: 660px; margin-bottom: 36px; }
 
-    /* SECTIONS */
-    section { position: relative; z-index: 1; }
+  .btns { display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px; padding: 13px 20px; border-radius: 5px;
+    font-family: var(--mono); font-size: 12px; letter-spacing: .02em; transition: .15s; border: 1px solid transparent;
+  }
+  .btn.solid { background: var(--acc); color: #0B0C0E; font-weight: 700; }
+  .btn.solid:hover { background: var(--fg); }
+  .btn.ghost { border-color: var(--line2); color: var(--dim); }
+  .btn.ghost:hover { border-color: var(--acc); color: var(--acc); }
 
-    /* HERO */
-    #hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      padding: 6rem 2.5rem 4rem;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-    .hero-inner {
-      width: 100%;
-    }
-    .hero-tag {
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      color: var(--accent);
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      margin-bottom: 1.5rem;
-      opacity: 0;
-      animation: fadeUp 0.6s 0.1s forwards;
-    }
-    .hero-name {
-      font-size: clamp(3rem, 8vw, 6.5rem);
-      font-weight: 800;
-      line-height: 1.0;
-      letter-spacing: -0.03em;
-      margin-bottom: 1rem;
-      opacity: 0;
-      animation: fadeUp 0.6s 0.25s forwards;
-    }
-    .hero-name span {
-      display: block;
-      color: var(--muted);
-      font-weight: 400;
-    }
-    .hero-role {
-      font-family: var(--mono);
-      font-size: clamp(0.85rem, 2vw, 1rem);
-      color: var(--muted);
-      margin-bottom: 2.5rem;
-      opacity: 0;
-      animation: fadeUp 0.6s 0.4s forwards;
-    }
-    .hero-role em {
-      color: var(--accent);
-      font-style: normal;
-    }
-    .hero-desc {
-      max-width: 520px;
-      font-size: 1rem;
-      color: #8888aa;
-      line-height: 1.8;
-      margin-bottom: 3rem;
-      opacity: 0;
-      animation: fadeUp 0.6s 0.55s forwards;
-    }
-    .hero-ctas {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      opacity: 0;
-      animation: fadeUp 0.6s 0.7s forwards;
-    }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1.5rem;
-      border-radius: 4px;
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      text-decoration: none;
-      transition: all 0.2s;
-      cursor: pointer;
-    }
-    .btn-primary {
-      background: var(--accent);
-      color: #000;
-      font-weight: 700;
-    }
-    .btn-primary:hover {
-      background: #fff;
-      box-shadow: 0 0 30px rgba(0,229,255,0.3);
-    }
-    .btn-ghost {
-      border: 1px solid var(--border);
-      color: var(--muted);
-    }
-    .btn-ghost:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
+  section { padding: 56px 0; }
+  .shead { display: flex; align-items: baseline; gap: 14px; border-top: 1px solid var(--line); padding-top: 22px; margin-bottom: 30px; }
+  .snum { font-family: var(--mono); font-size: 11px; color: var(--acc); }
+  .shead h2 { font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 500; letter-spacing: -.02em; }
+  .shead p { margin-left: auto; font-family: var(--mono); font-size: 11px; color: var(--mut2); }
 
-    /* DIVIDER */
-    .section-divider {
-      width: 100%;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--border), transparent);
-      margin: 0 auto;
-    }
+  .grid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+  .card {
+    border: 1px solid var(--line2); background: var(--card); border-radius: 8px; overflow: hidden;
+    display: flex; flex-direction: column; transition: .18s;
+  }
+  .card:hover { border-color: var(--acc); transform: translateY(-3px); }
+  .shot { aspect-ratio: 16/10; width: 100%; object-fit: cover; object-position: top center; background: var(--card2); border-bottom: 1px solid var(--line2); }
+  .mark {
+    aspect-ratio: 16/10; width: 100%; display: grid; place-items: center; padding: 30px;
+    background: radial-gradient(120% 120% at 50% 0%, #14181C 0%, var(--card2) 70%);
+    border-bottom: 1px solid var(--line2);
+  }
+  .mark img { max-height: 100%; width: auto; object-fit: contain; }
+  .noshot {
+    aspect-ratio: 16/10; display: grid; place-items: center; border-bottom: 1px solid var(--line2);
+    background: linear-gradient(135deg, var(--card2), var(--accbg));
+    font-family: var(--mono); font-size: 12px; letter-spacing: .1em; color: var(--acc);
+  }
+  .card .body { padding: 18px 18px 20px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .card h3 { font-size: 1.02rem; font-weight: 500; letter-spacing: -.01em; }
+  .card p { font-size: .88rem; line-height: 1.6; color: var(--mut); }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 4px; }
+  .tag { font-family: var(--mono); font-size: 10px; color: var(--mut2); border: 1px solid var(--line); border-radius: 3px; padding: 3px 7px; }
+  .site { font-family: var(--mono); font-size: 11px; color: var(--acc); }
+  .site.off { color: var(--mut2); }
 
-    /* SKILLS */
-    #skills {
-      padding: 5rem 2.5rem;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-    .section-label {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      color: var(--accent);
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      margin-bottom: 0.75rem;
-    }
-    .section-title {
-      font-size: clamp(1.8rem, 4vw, 2.8rem);
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      margin-bottom: 3rem;
-      color: var(--text);
-    }
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-    }
-    .skill-card {
-      background: var(--surface);
-      padding: 2rem;
-      transition: background 0.2s;
-      position: relative;
-      overflow: hidden;
-    }
-    .skill-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 2px;
-      height: 0;
-      background: var(--accent);
-      transition: height 0.3s;
-    }
-    .skill-card:hover::before { height: 100%; }
-    .skill-card:hover { background: #16162400; background: rgba(0,229,255,0.02); }
-    .skill-icon {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-    }
-    .skill-name {
-      font-size: 1rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-    }
-    .skill-desc {
-      font-size: 0.82rem;
-      color: var(--muted);
-      line-height: 1.6;
-    }
+  .stack { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+  .sk { border: 1px solid var(--line2); background: var(--card); border-radius: 8px; padding: 20px; transition: .18s; }
+  .sk:hover { border-color: var(--accline); }
+  .sk b { display: block; font-family: var(--mono); font-size: 11px; color: var(--acc); font-weight: 400; margin-bottom: 10px; }
+  .sk h3 { font-size: 1rem; font-weight: 500; margin-bottom: 8px; }
+  .sk p { font-size: .87rem; line-height: 1.6; color: var(--mut); }
 
-    /* EXPERIENCE */
-    #experience {
-      padding: 5rem 2.5rem;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-    .timeline {
-      position: relative;
-      padding-left: 2rem;
-    }
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 0; top: 0; bottom: 0;
-      width: 1px;
-      background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
-    }
-    .timeline-item {
-      position: relative;
-      margin-bottom: 3rem;
-      padding-left: 2rem;
-    }
-    .timeline-item::before {
-      content: '';
-      position: absolute;
-      left: -2.4rem;
-      top: 0.4rem;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 10px var(--accent);
-    }
-    .timeline-period {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      color: var(--accent);
-      letter-spacing: 0.1em;
-      margin-bottom: 0.4rem;
-    }
-    .timeline-role {
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin-bottom: 0.2rem;
-    }
-    .timeline-company {
-      font-size: 0.85rem;
-      color: var(--muted);
-      margin-bottom: 0.75rem;
-    }
-    .timeline-desc {
-      font-size: 0.85rem;
-      color: #7777aa;
-      line-height: 1.7;
-      max-width: 600px;
-    }
+  .job { display: grid; grid-template-columns: 210px 1fr; gap: 24px; padding: 22px 0; border-top: 1px solid var(--line); }
+  .job:first-of-type { border-top: none; }
+  .when { font-family: var(--mono); font-size: 11px; color: var(--mut2); line-height: 1.8; }
+  .when b { display: block; color: var(--acc); font-weight: 400; }
+  .job h3 { font-size: 1.05rem; font-weight: 500; margin-bottom: 6px; }
+  .where { font-family: var(--mono); font-size: 11px; color: var(--mut); margin-bottom: 10px; }
+  .job p { font-size: .9rem; line-height: 1.65; color: var(--mut); max-width: 720px; }
 
-    /* EDUCATION */
-    #education {
-      padding: 5rem 2.5rem;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-    .edu-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1rem;
-    }
-    .edu-card {
-      border: 1px solid var(--border);
-      padding: 1.75rem;
-      border-radius: 2px;
-      background: var(--surface);
-      transition: border-color 0.2s, transform 0.2s;
-      position: relative;
-    }
-    .edu-card:hover {
-      border-color: rgba(0,229,255,0.3);
-      transform: translateY(-2px);
-    }
-    .edu-year {
-      font-family: var(--mono);
-      font-size: 0.68rem;
-      color: var(--accent2);
-      letter-spacing: 0.15em;
-      margin-bottom: 0.6rem;
-    }
-    .edu-course {
-      font-size: 0.95rem;
-      font-weight: 700;
-      margin-bottom: 0.3rem;
-    }
-    .edu-institution {
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
+  .rows { display: grid; gap: 0; }
+  .row { display: grid; grid-template-columns: 170px 1fr; gap: 24px; padding: 16px 0; border-top: 1px solid var(--line); align-items: baseline; }
+  .row h3 { font-size: .98rem; font-weight: 500; }
+  .row span { font-family: var(--mono); font-size: 11px; color: var(--mut2); }
+  .row p { font-family: var(--mono); font-size: 11px; color: var(--mut); margin-top: 4px; }
 
-    /* CERTIFICATIONS */
-    #certifications {
-      padding: 5rem 2.5rem;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-    .cert-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-    .cert-item {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 1rem 1.5rem;
-      border: 1px solid var(--border);
-      background: var(--surface);
-      transition: border-color 0.2s;
-    }
-    .cert-item:hover { border-color: rgba(0,229,255,0.25); }
-    .cert-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--accent);
-      flex-shrink: 0;
-      box-shadow: 0 0 6px var(--accent);
-    }
-    .cert-name {
-      font-size: 0.9rem;
-      font-weight: 600;
-      flex: 1;
-    }
-    .cert-issuer {
-      font-family: var(--mono);
-      font-size: 0.68rem;
-      color: var(--muted);
-      letter-spacing: 0.05em;
-    }
-    .cert-year {
-      font-family: var(--mono);
-      font-size: 0.68rem;
-      color: var(--accent);
-    }
+  .cta h2 { font-size: clamp(2rem, 6vw, 3.6rem); font-weight: 700; letter-spacing: -.04em; line-height: 1; margin-bottom: 20px; }
+  .cta h2 em { color: var(--acc); font-style: normal; }
+  .cta p { color: var(--dim); max-width: 560px; line-height: 1.7; margin-bottom: 28px; }
+  .contacts { display: flex; flex-wrap: wrap; gap: 10px; }
 
-    /* CONTACT */
-    #contact {
-      padding: 5rem 2.5rem 8rem;
-      max-width: 1100px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    .contact-title {
-      font-size: clamp(2rem, 5vw, 4rem);
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      margin-bottom: 1rem;
-    }
-    .contact-title span { color: var(--accent); }
-    .contact-sub {
-      color: var(--muted);
-      font-size: 0.95rem;
-      margin-bottom: 3rem;
-      max-width: 420px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .contact-links {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
+  footer { border-top: 1px solid var(--line); padding: 26px 0 40px; }
+  footer .wrap { display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; font-family: var(--mono); font-size: 11px; color: var(--mut2); }
 
-    /* FOOTER */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 1.5rem 2.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-family: var(--mono);
-      font-size: 0.68rem;
-      color: var(--muted);
-      position: relative;
-      z-index: 1;
-    }
-
-    /* STATUS badge */
-    .status-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: rgba(0,229,255,0.05);
-      border: 1px solid rgba(0,229,255,0.15);
-      padding: 0.4rem 0.9rem;
-      border-radius: 100px;
-      font-family: var(--mono);
-      font-size: 0.68rem;
-      color: var(--accent);
-      letter-spacing: 0.08em;
-      margin-bottom: 1.5rem;
-      opacity: 0;
-      animation: fadeUp 0.6s 0s forwards;
-    }
-    .status-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--accent);
-      animation: pulse 2s infinite;
-    }
-
-    /* ANIMATIONS */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0,229,255,0.4); }
-      50%       { opacity: 0.7; box-shadow: 0 0 0 6px rgba(0,229,255,0); }
-    }
-
-    /* SCROLL REVEAL */
-    .reveal {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.6s, transform 0.6s;
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: none;
-    }
-
-    /* RESPONSIVE */
-    @media (max-width: 640px) {
-      nav { padding: 1rem 1.25rem; }
-      .nav-links { gap: 1rem; }
-      #hero, #skills, #experience, #education, #certifications, #contact {
-        padding-left: 1.25rem;
-        padding-right: 1.25rem;
-      }
-      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
-    }
-  </style>
+  @media (max-width: 720px) {
+    header.top { padding: 10px 16px; }
+    nav a { padding: 5px 8px; }
+    .wrap { padding: 0 16px; }
+    .job, .row { grid-template-columns: 1fr; gap: 8px; }
+    section { padding: 40px 0; }
+  }
+</style>
 </head>
 <body>
 
-  <div class="blob"></div>
-  <div class="blob2"></div>
-
-  <!-- NAV -->
+<header class="top">
+  <a class="logo" href="#topo"><b>~/</b>firmino<i>.dev</i></a>
   <nav>
-    <div class="nav-logo">firmino.dev</div>
-    <ul class="nav-links">
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#experience">Exp</a></li>
-      <li><a href="#education">Formações</a></li>
-      <li><a href="#contact">Contato</a></li>
-    </ul>
+    <a href="#projetos">projetos</a>
+    <a href="#stack">stack</a>
+    <a href="#trajetoria">exp</a>
+    <a href="#educacao">formação</a>
+    <a href="#contato">contato</a>
   </nav>
+</header>
 
-  <!-- HERO -->
-  <section id="hero">
-    <div class="hero-inner">
-      <div class="status-badge">
-        <span class="status-dot"></span>
-        Disponível para oportunidades
+<section id="topo" class="wrap" style="padding-top:64px; padding-bottom:56px">
+  <div class="badge rise"><span class="dot"></span><span>disponível para novos projetos</span></div>
+
+  <div class="prompt rise" style="animation-delay:.06s"><b>$</b> whoami</div>
+
+  <h1 class="rise" style="animation-delay:.1s">Rafael<br><span>Firmino</span><em>_</em></h1>
+
+  <div class="chips rise" style="animation-delay:.16s">
+    <span class="chip">front-end &amp; back-end developer</span>
+    <span class="chip on">ceo · útil.app</span>
+    <span class="chip">wordpress &amp; woocommerce</span>
+    <span class="chip">php · mysql · node</span>
+    <span class="chip">react · astro · typescript</span>
+    <span class="chip">automação &amp; ia</span>
+    <span class="chip">bauru · sp</span>
+  </div>
+
+  <p class="lead rise" style="animation-delay:.22s">
+    Formado em Tecnologia em Banco de Dados e desenvolvedor front-end e back-end. Transformo processo
+    manual em sistema que funciona sozinho: site que capta, loja que vende, automação que responde e
+    painel que mostra o que está acontecendo. O que eu entrego fica em produção — e continua no ar
+    comigo, no servidor, depois da entrega.
+  </p>
+
+  <div class="btns rise" style="animation-delay:.28s">
+    <a class="btn solid" href="#projetos">ver projetos →</a>
+    <a class="btn ghost" href="https://wa.me/5514991581409" target="_blank" rel="noopener">WhatsApp</a>
+    <a class="btn ghost" href="https://www.linkedin.com/in/eusourafaelfirmino" target="_blank" rel="noopener">LinkedIn</a>
+  </div>
+</section>
+
+<section id="projetos" class="wrap">
+  <div class="shead">
+    <span class="snum">01</span>
+    <h2>Projetos</h2>
+    <p>em produção</p>
+  </div>
+
+  <div class="grid">
+
+    <article class="card">
+      <img class="shot" src="img/site-ibna.webp" alt="Site da Igreja Batista Nova Aliança" loading="lazy">
+      <div class="body">
+        <h3>Igreja Batista Nova Aliança</h3>
+        <p>Site institucional com agenda semanal de atividades, blog e estrutura pensada para quem chega pelo celular.</p>
+        <a class="site" href="https://ibnabauru.com.br" target="_blank" rel="noopener">ibnabauru.com.br ↗</a>
+        <div class="tags"><span class="tag">WordPress</span><span class="tag">Elementor</span><span class="tag">SEO</span></div>
       </div>
-      <div class="hero-tag">// desenvolvedor front-end · Bauru, SP</div>
-      <h1 class="hero-name">
-        Rafael
-        <span>Firmino.</span>
-      </h1>
-      <p class="hero-role">
-        WordPress &amp; Elementor · <em>Front-end Developer</em> · Database Tech
-      </p>
-      <p class="hero-desc">
-        Formando em Tecnologia em Banco de Dados pela FATEC-SP, com experiência em desenvolvimento front-end, suporte técnico e criação de interfaces web. Gosto de construir coisas que funcionam de verdade.
-      </p>
-      <div class="hero-ctas">
-        <a href="https://www.linkedin.com/in/eusourafaelfirmino/" target="_blank" class="btn btn-primary">
-          LinkedIn →
-        </a>
-        <a href="#contact" class="btn btn-ghost">Entre em contato</a>
+    </article>
+
+    <article class="card">
+      <img class="shot" src="img/site-ert.webp" alt="Plataforma de cursos da ERT Bauru" loading="lazy">
+      <div class="body">
+        <h3>ERT Bauru — plataforma de cursos</h3>
+        <p>Cursos divididos em módulos, vídeo-aulas e liberação programada de conteúdo conforme o aluno avança. O cliente publica aula nova sem depender de mim.</p>
+        <a class="site" href="https://ertbauru.com.br" target="_blank" rel="noopener">ertbauru.com.br ↗</a>
+        <div class="tags"><span class="tag">WordPress</span><span class="tag">LMS</span><span class="tag">Área do aluno</span></div>
       </div>
+    </article>
+
+    <article class="card">
+      <img class="shot" src="img/site-pararaio.webp" alt="Site de O Rei do Para-Raio" loading="lazy">
+      <div class="body">
+        <h3>O Rei do Para-Raio</h3>
+        <p>Site de serviço local em código leve: uma página por serviço, dado estruturado para o Google entender a empresa e cabeçalhos de segurança configurados no servidor.</p>
+        <a class="site" href="https://oreidopararaio.com.br" target="_blank" rel="noopener">oreidopararaio.com.br ↗</a>
+        <div class="tags"><span class="tag">HTML/CSS</span><span class="tag">SEO local</span><span class="tag">Segurança</span></div>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="noshot">EBS VENDAS</div>
+      <div class="body">
+        <h3>EBS Vendas — imóveis</h3>
+        <p>Plataforma de vendas de imóveis: catálogo com busca por características, página de anúncio e caminho direto do interessado até a negociação.</p>
+        <span class="site off">projeto privado</span>
+        <div class="tags"><span class="tag">PHP</span><span class="tag">MySQL</span><span class="tag">Painel</span></div>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="mark"><img src="img/ebs-construcoes.webp" alt="Marca da EBS Construções" loading="lazy"></div>
+      <div class="body">
+        <h3>EBS Construções e Projetos</h3>
+        <p>Site institucional da construtora: apresentação de obras e serviços, com foco em credibilidade e contato direto.</p>
+        <span class="site off">em manutenção</span>
+        <div class="tags"><span class="tag">WordPress</span><span class="tag">Institucional</span></div>
+      </div>
+    </article>
+
+    <article class="card">
+      <img class="shot" src="img/arome-essencias-loja.webp" alt="Loja virtual Aromê Essências" loading="lazy">
+      <div class="body">
+        <h3>Aromê Essências — loja virtual</h3>
+        <p>Loja completa em WooCommerce: catálogo com variações, carrinho, checkout, cálculo de frete e área do cliente. Operação encerrada pela cliente em 2025.</p>
+        <span class="site off">descontinuado</span>
+        <div class="tags"><span class="tag">WooCommerce</span><span class="tag">Pagamentos</span><span class="tag">Frete</span></div>
+      </div>
+    </article>
+
+    <article class="card">
+      <img class="shot" src="img/ghatus-auto-eletrica-landing.webp" alt="Landing page da Ghatus Auto Elétrica" loading="lazy">
+      <div class="body">
+        <h3>Ghatus Auto Elétrica</h3>
+        <p>Landing de conversão desenhada primeiro para o celular, com WhatsApp fixo e caminho curto até o contato. Feita para receber tráfego de anúncio.</p>
+        <span class="site off">não publicado</span>
+        <div class="tags"><span class="tag">Landing</span><span class="tag">Mobile-first</span><span class="tag">Ads</span></div>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="noshot">CRM PRÓPRIO</div>
+      <div class="body">
+        <h3>Útil.App — CRM e automações</h3>
+        <p>Meu próprio sistema, em produção: funil e régua de cobrança, prospecção por CNPJ a partir dos dados públicos da Receita, chat de site com triagem por IA e auditoria automática de site e Google Meu Negócio.</p>
+        <a class="site" href="https://util-app.com.br" target="_blank" rel="noopener">util-app.com.br ↗</a>
+        <div class="tags"><span class="tag">PHP</span><span class="tag">MySQL</span><span class="tag">IA</span><span class="tag">Linux</span></div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<section id="stack" class="wrap">
+  <div class="shead">
+    <span class="snum">02</span>
+    <h2>Stack &amp; ferramentas</h2>
+    <p>o que eu uso no dia a dia</p>
+  </div>
+
+  <div class="stack">
+    <div class="sk">
+      <b>01</b><h3>WordPress &amp; WooCommerce</h3>
+      <p>Sites institucionais, landing pages, plataformas de curso e lojas completas, com Elementor, ACF e tema sob medida quando precisa.</p>
     </div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <!-- SKILLS -->
-  <section id="skills">
-    <div class="reveal">
-      <p class="section-label">// 02. habilidades</p>
-      <h2 class="section-title">Stack &amp; Ferramentas</h2>
+    <div class="sk">
+      <b>02</b><h3>PHP &amp; MySQL</h3>
+      <p>Sistemas sob medida do zero: modelagem de banco, regra de negócio, permissão por perfil e relatório. Base da graduação em Banco de Dados na Fatec Bauru.</p>
     </div>
-    <div class="skills-grid reveal">
-      <div class="skill-card">
-        <div class="skill-icon">⚡</div>
-        <div class="skill-name">WordPress &amp; Elementor</div>
-        <div class="skill-desc">Desenvolvimento de sites, landing pages e portais customizados com WordPress + Elementor e ACF.</div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-icon">🗄️</div>
-        <div class="skill-name">Banco de Dados &amp; SQL</div>
-        <div class="skill-desc">Modelagem, otimização e administração de bancos de dados relacionais. Base sólida em SQL e segurança da informação.</div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-icon">🐍</div>
-        <div class="skill-name">Python</div>
-        <div class="skill-desc">Certificação Cisco Python Essentials 1. Lógica de programação, automações e scripts.</div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-icon">🎨</div>
-        <div class="skill-name">Photoshop &amp; Design</div>
-        <div class="skill-desc">Criação e edição de imagens para mídias sociais e web. Curso Senac com foco em design gráfico digital.</div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-icon">🛠️</div>
-        <div class="skill-name">Suporte &amp; Infraestrutura</div>
-        <div class="skill-desc">Hardware, redes, sistemas operacionais, GLPI, TeamViewer, AnyDesk, VNC. Atendimento presencial e remoto.</div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-icon">💎</div>
-        <div class="skill-name">C# Básico</div>
-        <div class="skill-desc">Fundamentos de programação orientada a objetos com C# — Fundação Bradesco.</div>
-      </div>
+    <div class="sk">
+      <b>03</b><h3>Node.js &amp; automações</h3>
+      <p>Rotinas que tiram trabalho manual do caminho: bot de WhatsApp rodando como serviço com reinício automático, cobrança por Pix e Stripe, integração com API oficial de marketplace e tarefas agendadas.</p>
     </div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <!-- EXPERIENCE -->
-  <section id="experience">
-    <div class="reveal">
-      <p class="section-label">// 03. experiência</p>
-      <h2 class="section-title">Trajetória</h2>
+    <div class="sk">
+      <b>04</b><h3>IA aplicada</h3>
+      <p>Chat com triagem automática, busca sobre base própria com embeddings (RAG), conferência de produto por foto e diagnóstico técnico traduzido para linguagem de dono de negócio. Em produção, não em slide.</p>
     </div>
-    <div class="timeline reveal">
-      <div class="timeline-item">
-        <div class="timeline-period">mar 2024 — nov 2024 · 9 meses</div>
-        <div class="timeline-role">Helpdesk Pleno</div>
-        <div class="timeline-company">Tel Telecomunicações · Tempo integral · Bauru, SP</div>
-        <div class="timeline-desc">
-          Suporte técnico de nível pleno, atendimento a chamados, resolução de problemas complexos de hardware, software e conectividade. Organização e gestão de demandas internas.
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-period">ago 2023 — mar 2024 · 8 meses</div>
-        <div class="timeline-role">Helpdesk</div>
-        <div class="timeline-company">HCosta · Meio período · Bauru, SP</div>
-        <div class="timeline-desc">
-          Suporte técnico com foco em resolução de problemas de hardware, software e rede. Instalação e configuração de sistemas. Gerenciamento de chamados via GLPI. Atendimentos remotos com TeamViewer, AnyDesk, VNC e Digisac. Documentação de procedimentos e recuperação de dados.
-        </div>
-      </div>
+    <div class="sk">
+      <b>05</b><h3>Linux &amp; infraestrutura</h3>
+      <p>Servidor, DNS, e-mail com SPF, DKIM e DMARC, certificado, cabeçalhos de segurança, cópia automática e cron. Quem entrega também mantém.</p>
     </div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <!-- EDUCATION -->
-  <section id="education">
-    <div class="reveal">
-      <p class="section-label">// 04. formação</p>
-      <h2 class="section-title">Educação</h2>
+    <div class="sk">
+      <b>06</b><h3>Front-end moderno</h3>
+      <p>React, TypeScript e Astro para site estático que carrega rápido e ranqueia: migração de WordPress para estático, componentes reaproveitados e build organizado em monorepo.</p>
     </div>
-    <div class="edu-grid reveal">
-      <div class="edu-card">
-        <div class="edu-year">2021 – 2025</div>
-        <div class="edu-course">Tecnologia em Banco de Dados</div>
-        <div class="edu-institution">FATEC-SP — Faculdade de Tecnologia de São Paulo</div>
-      </div>
-      <div class="edu-card">
-        <div class="edu-year">fev – mar 2024</div>
-        <div class="edu-course">Lógica de Programação</div>
-        <div class="edu-institution">SENAI São Paulo — Aperfeiçoamento</div>
-      </div>
-      <div class="edu-card">
-        <div class="edu-year">ago – set 2024</div>
-        <div class="edu-course">Photoshop para Mídias Sociais</div>
-        <div class="edu-institution">SENAC São Paulo — Design Gráfico</div>
-      </div>
-      <div class="edu-card">
-        <div class="edu-year">abr – mai 2021</div>
-        <div class="edu-course">Fundamentos de Lógica de Programação</div>
-        <div class="edu-institution">Fundação Bradesco</div>
-      </div>
-      <div class="edu-card">
-        <div class="edu-year">mai 2021</div>
-        <div class="edu-course">C# — Básico</div>
-        <div class="edu-institution">Fundação Bradesco</div>
-      </div>
+    <div class="sk">
+      <b>07</b><h3>Dados &amp; BI</h3>
+      <p>Coleta, tratamento e análise: SQL, Power Query e DAX no Power BI, scripts em Python. Dashboard comercial construído do zero.</p>
     </div>
-  </section>
+  </div>
+</section>
 
-  <div class="section-divider"></div>
+<section id="trajetoria" class="wrap">
+  <div class="shead">
+    <span class="snum">03</span>
+    <h2>Trajetória</h2>
+    <p>bauru · sp</p>
+  </div>
 
-  <!-- CERTIFICATIONS -->
-  <section id="certifications">
-    <div class="reveal">
-      <p class="section-label">// 05. certificações</p>
-      <h2 class="section-title">Licenças &amp; Certs</h2>
+  <div class="job">
+    <div class="when">dez 2024 → o momento<b>1 ano 9 meses</b></div>
+    <div>
+      <h3>CEO / Desenvolvedor</h3>
+      <div class="where">Útil.App · Tempo integral · Bauru, SP</div>
+      <p>Criação de sites, lojas virtuais, sistemas sob medida e automações para negócios locais. Atendimento direto ao cliente, do escopo à entrega, com manutenção e servidor por minha conta.</p>
     </div>
-    <div class="cert-list reveal">
-      <div class="cert-item">
-        <div class="cert-dot"></div>
-        <div class="cert-name">Python Essentials 1</div>
-        <div class="cert-issuer">Cisco Networking Academy</div>
-        <div class="cert-year">mar 2026</div>
-      </div>
+  </div>
+
+  <div class="job">
+    <div class="when">mar 2024 → nov 2024<b>9 meses</b></div>
+    <div>
+      <h3>Helpdesk Pleno</h3>
+      <div class="where">Tel Telecomunicações · Tempo integral · Bauru, SP</div>
+      <p>Suporte técnico de nível pleno, atendimento a chamados e resolução de problemas complexos de hardware, software e conectividade. Organização e gestão de demandas internas.</p>
     </div>
-  </section>
+  </div>
 
-  <div class="section-divider"></div>
-
-  <!-- CONTACT -->
-  <section id="contact">
-    <div class="reveal">
-      <p class="section-label">// 06. contato</p>
-      <h2 class="contact-title">Vamos <span>conversar?</span></h2>
-      <p class="contact-sub">Estou aberto a novas oportunidades, projetos freelance e colaborações.</p>
-      <div class="contact-links">
-        <a href="https://www.linkedin.com/in/eusourafaelfirmino/" target="_blank" class="btn btn-primary">LinkedIn →</a>
-      </div>
+  <div class="job">
+    <div class="when">ago 2023 → mar 2024<b>8 meses</b></div>
+    <div>
+      <h3>Helpdesk</h3>
+      <div class="where">HCosta · Meio período · Bauru, SP</div>
+      <p>Hardware, software e conectividade; instalação e configuração de sistemas e periféricos; manutenção e segurança de redes. Chamados via GLPI, atendimento remoto e documentação de procedimentos.</p>
     </div>
-  </section>
+  </div>
 
-  <!-- FOOTER -->
-  <footer>
-    <span>© 2025 Rafael Rodrigues Firmino</span>
+  <div class="rows" style="margin-top:26px">
+    <div class="row"><span>antes disso</span><div>
+      <h3>Repositor · Aprendiz</h3><p>Grupo Lactalis · set 2021 → mar 2023</p>
+    </div></div>
+    <div class="row"><span></span><div>
+      <h3>Assistente administrativo · Aprendiz</h3><p>Walp Construções e Comércio · jul 2018 → jul 2019</p>
+    </div></div>
+  </div>
+</section>
+
+<section id="educacao" class="wrap">
+  <div class="shead">
+    <span class="snum">04</span>
+    <h2>Formação &amp; certificações</h2>
+    <p>fatec bauru · senai · cisco · anthropic</p>
+  </div>
+
+  <div class="rows">
+    <div class="row"><span>2021 – 2025</span><div><h3>Tecnologia em Banco de Dados</h3><p>Fatec Bauru — Faculdade de Tecnologia</p></div></div>
+    <div class="row"><span>ago 2026</span><div><h3>AI Fluency: Framework &amp; Foundations</h3><p>Anthropic</p></div></div>
+    <div class="row"><span>mar 2026</span><div><h3>Python Essentials 1</h3><p>Cisco Networking Academy</p></div></div>
+    <div class="row"><span>set – out 2024</span><div><h3>Microsoft Power BI</h3><p>SENAI São Paulo — tratamento e visualização de dados</p></div></div>
+    <div class="row"><span>fev – mar 2024</span><div><h3>Lógica de Programação</h3><p>SENAI São Paulo — aperfeiçoamento</p></div></div>
+    <div class="row"><span>mai 2021</span><div><h3>Linguagem C# — Básico</h3><p>Fundação Bradesco</p></div></div>
+    <div class="row"><span>ago – out 2019</span><div><h3>Redes de Computadores</h3><p>SENAI São Paulo — aperfeiçoamento profissional</p></div></div>
+    <div class="row"><span>fev – jun 2018</span><div><h3>Hardware de Computadores</h3><p>SENAI São Paulo — aperfeiçoamento profissional</p></div></div>
+  </div>
+</section>
+
+<section id="contato" class="wrap cta">
+  <div class="shead">
+    <span class="snum">05</span>
+    <h2>Contato</h2>
+    <p>resposta no mesmo dia</p>
+  </div>
+
+  <h2>Vamos <em>conversar?</em></h2>
+  <p>Site, loja virtual, sistema sob medida, automação ou manutenção de algo que já existe — me conta o que precisa resolver que eu digo o que dá para fazer, o prazo e o valor.</p>
+
+  <div class="contacts">
+    <a class="btn solid" href="https://wa.me/5514991581409" target="_blank" rel="noopener">WhatsApp (14) 99158-1409</a>
+    <a class="btn ghost" href="mailto:comercial@util-app.com.br">comercial@util-app.com.br</a>
+    <a class="btn ghost" href="https://util-app.com.br" target="_blank" rel="noopener">util-app.com.br</a>
+    <a class="btn ghost" href="https://www.linkedin.com/in/eusourafaelfirmino" target="_blank" rel="noopener">LinkedIn</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Rafael Rodrigues Firmino</span>
     <span>Bauru, São Paulo · Brasil</span>
-  </footer>
+  </div>
+</footer>
 
-  <script>
-    // Scroll reveal
-    const reveals = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.1 });
-    reveals.forEach(el => observer.observe(el));
-  </script>
 </body>
 </html>
